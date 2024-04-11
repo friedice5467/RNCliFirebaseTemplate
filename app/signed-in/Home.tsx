@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { StyleSheet, View, FlatList, TextInput } from 'react-native';
 import { useTheme, Card, FAB, Text } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
-
+import {  useNavigation } from '@react-navigation/native';
 import { UserContext } from '../App';
+import { HomeScreenNavigationProp } from '../models/navigation';  
 
 function Home() {
   const theme = useTheme();
-  const navigation = useNavigation();
+  const navigation = useNavigation<HomeScreenNavigationProp>();
   const user = useContext(UserContext);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -24,8 +24,7 @@ function Home() {
 
   const handleAddRecipe = () => {
     console.log('Navigate to Add Recipe Screen');
-    // Intended for navigation
-    // navigation.navigate('AddRecipeScreen');
+    navigation.navigate('AddRecipeScreen');
   };
 
   const renderItem = ({ item } : any) => (
