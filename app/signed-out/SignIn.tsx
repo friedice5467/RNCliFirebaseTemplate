@@ -17,14 +17,13 @@ function SignIn() {
   return (
     <Fragment>
       <Hero
-        height={300}
+        height={'100%'}
         image={
           'https://images.unsplash.com/photo-1555099962-4199c345e5dd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'
         }>
         <EmailPassword />
-      </Hero>
 
-      <View style={styles.center}>
+        <View style={[styles.center, {paddingBottom: 10}]}>
         <Button
           buttonColor="#9e9e9e"
           onPress={() => {
@@ -57,6 +56,9 @@ function SignIn() {
           {appSettings.t('phoneSignIn')}
         </ProviderButton> */}
       </View>
+      </Hero>
+
+      
     </Fragment>
   );
 }
@@ -81,7 +83,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     width: 300,
-    marginVertical: 20,
+    marginVertical: 25,
     height: StyleSheet.hairlineWidth,
   },
 });

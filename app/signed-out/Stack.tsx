@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 function SignedOutStack() {
   const appSettings = useAppSettings();
   return (
-    <Stack.Navigator initialRouteName="home">
+    <Stack.Navigator initialRouteName="amogus">
       <Stack.Screen
         name="SignIn"
         component={SignIn}

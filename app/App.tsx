@@ -16,6 +16,7 @@ import {
 import {NavigationContainer} from '@react-navigation/native';
 import {useAppSettings} from './components/AppSettings';
 import {AlertsProvider} from 'react-native-paper-alerts';
+import Orientation from 'react-native-orientation-locker';
 
 /**
  * Types
@@ -53,11 +54,12 @@ function App(): JSX.Element {
   /** Listen for user changes */
   useEffect(() => {
     let userListener: () => void;
-
+    Orientation.lockToPortrait();
     if (listenUser) {
       // TODO @react-native-firebase/auth provides `onUserChanged` which is this and more.
       // what else can we add and still be web-compatible?
       userListener = auth().onIdTokenChanged(result => {
+        console.log(`The user is: ${JSON.stringify(result)}`)
         setUser(result);
       });
     }

@@ -1,14 +1,15 @@
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useAppSettings} from '../components/AppSettings';
 import {NotFound} from '../components/NotFound';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {App as GettingStarted} from '../../luna-app/App';
 import Profile from './Profile';
 import Settings from './Settings';
+import Home from './Home';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Stack = createStackNavigator();
-const TopTabs = createMaterialTopTabNavigator();
+const BottomTab = createBottomTabNavigator();
 
 const ProfileStack = () => {
   const appSettings = useAppSettings();
@@ -34,29 +35,32 @@ const ProfileStack = () => {
 };
 
 const SignedIn = () => {
-  // Used for status bar layout in react-navigation
-  const insets = useSafeAreaInsets();
   const appSettings = useAppSettings();
-
-  const screenOptions = {
-    tabBarStyle: {
-      paddingTop: insets.top,
-    },
-  };
+  const insets = useSafeAreaInsets();
 
   return (
-    <TopTabs.Navigator initialRouteName="Home" screenOptions={screenOptions}>
-      <TopTabs.Screen
+    <BottomTab.Navigator initialRouteName="Home" safeAreaInsets={insets} screenOptions={{tabBarStyle: {paddingBottom: 3}}}>
+      <BottomTab.Screen
         name="Home"
-        options={{title: appSettings.t('gettingStarted')}}
-        component={GettingStarted}
+        options={{
+          title: 'Home',
+          tabBarIcon(props) {
+            return <Icon name="home" size={24} color={props.color} />;
+          },
+        }}
+        component={Home}
       />
-      <TopTabs.Screen
+      <BottomTab.Screen
         name="User"
-        options={{title: appSettings.t('userInfo')}}
+        options={{
+          title: appSettings.t('userInfo'),
+          tabBarIcon(props) {
+            return <Icon name="account" size={24} color={props.color} />;
+          },
+        }}
         component={ProfileStack}
       />
-    </TopTabs.Navigator>
+    </BottomTab.Navigator>
   );
 };
 

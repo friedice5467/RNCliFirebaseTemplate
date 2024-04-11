@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import {useContext} from 'react';
-import {Platform, StyleSheet, View} from 'react-native';
+import {useContext, useEffect} from 'react';
+import {Platform, StyleSheet, View,} from 'react-native';
 import {
   Avatar,
   Caption,
@@ -25,6 +25,7 @@ import {
 } from '../components/AppSettings';
 require('dayjs/locale/en');
 require('dayjs/locale/es');
+import Orientation from 'react-native-orientation-locker';
 
 function Profile() {
   const theme = useTheme();
