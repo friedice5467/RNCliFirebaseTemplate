@@ -3,7 +3,6 @@ import {Platform, StyleSheet, View} from 'react-native';
 import {Button, useTheme} from 'react-native-paper';
 import {useLinkTo} from '@react-navigation/native';
 import Hero from '../components/Hero';
-import ProviderButton from '../components/AuthProviderButton';
 import EmailPassword from '../auth-providers/EmailPassword';
 import Google from '../auth-providers/Google';
 import Apple from '../auth-providers/Apple';
