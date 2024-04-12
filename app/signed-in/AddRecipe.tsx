@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View, Text } from 'react-native';
 import { Button, TextInput, useTheme } from 'react-native-paper';
-import {HomeScreenNavigationProp} from '../models/navigation';
 import { useNavigation } from '@react-navigation/native';
 import { useAlerts } from 'react-native-paper-alerts';
+import { HomeScreenNavigationProp } from '../models/navigation';  
 
 const AddRecipeScreen = () => {
   const theme = useTheme();
@@ -13,32 +13,35 @@ const AddRecipeScreen = () => {
 
   const handleFindRecipes = () => {
     const validIngredients = ingredients.filter(ingredient => ingredient.trim() !== '');
-    
     if (validIngredients.length === 0) {
       alert.alert('Validation', 'Please enter at least one ingredient before searching for recipes.');
       return;
     }
-
     console.log('Finding recipes with ingredients:', validIngredients);
-    // Placeholder for API call to find recipes based on validIngredients
     navigation.navigate('RecipeResultScreen');
   };
 
   const handleAddIngredient = () => {
-    setIngredients(prevIngredients => [...prevIngredients, '']);
+    if (!ingredients.at(-1)) {
+      alert.alert('Validation', 'Please enter the current ingredient before adding a new one.');
+      return;
+    }
+    setIngredients([...ingredients, '']);
   };
 
   const handleRemoveIngredient = (index: number) => {
-    setIngredients(prevIngredients => prevIngredients.filter((_, i) => i !== index));
+    setIngredients(ingredients.filter((_, i) => i !== index));
   };
 
   const handleChangeIngredient = (index: number, text: string) => {
-    setIngredients(prevIngredients => prevIngredients.map((item, i) => i === index ? text : item));
+    setIngredients(ingredients.map((item, i) => i === index ? text : item));
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={styles.header}>What ingredients do you have?</Text>
+    <ScrollView style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.header}>What ingredients do you have?</Text>
+      </View>
       {ingredients.map((ingredient, index) => (
         <View key={index} style={styles.ingredientInputContainer}>
           <TextInput
@@ -52,24 +55,24 @@ const AddRecipeScreen = () => {
           />
         </View>
       ))}
-      {ingredients.length < 10 && (
-        <Button
-          icon="plus"
-          mode="text"
-          onPress={handleAddIngredient}
-          style={styles.addButton}
-          labelStyle={styles.addButtonLabel}
-          buttonColor={theme.colors.error}
-        >
-          Add ingredient
-        </Button>
-      )}
+      <Button
+        icon="plus"
+        disabled={ingredients.length >= 10 || !ingredients.at(-1)}
+        mode="contained"
+        onPress={handleAddIngredient}
+        style={styles.addButton}
+        contentStyle={styles.buttonContent}
+        labelStyle={styles.addButtonLabel}
+        buttonColor={theme.colors.onSecondaryContainer}
+      >
+        Add Ingredient
+      </Button>
       <Button
         mode="contained"
+        icon="magnify"
         onPress={handleFindRecipes}
         style={styles.findRecipesButton}
         labelStyle={styles.buttonLabel}
-        theme={{ colors: { primary: theme.colors.primary } }}
       >
         Find Recipes
       </Button>
@@ -80,14 +83,15 @@ const AddRecipeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  content: {
     padding: 20,
   },
-  header: {
-    fontSize: 18,
+  headerContainer: {
     marginBottom: 20,
+  },
+  header: {
+    fontSize: 22,
     fontWeight: 'bold',
+    color: '#333',
   },
   ingredientInputContainer: {
     flexDirection: 'row',
@@ -96,18 +100,21 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    marginRight: 10,
   },
   addButton: {
-    marginBottom: 20,
+    marginVertical: 20,
     alignSelf: 'center',
+    width: '75%',
+  },
+  buttonContent: {
+    height: 50,
   },
   addButtonLabel: {
     fontSize: 16,
   },
   findRecipesButton: {
-    marginTop: 20,
-    paddingVertical: 8,
+    marginTop: 10,
+    paddingVertical: 12,
   },
   buttonLabel: {
     fontSize: 18,

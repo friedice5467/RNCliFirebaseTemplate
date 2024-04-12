@@ -10,40 +10,32 @@ import RecipeDetailScreen from './RecipeDetails';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RecipeResultScreen from './RecipeResult';
+import {
+  HomeScreenNavigationProp,
+  ProfileScreenNavigationProp,
+} from '../models/navigation';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
 
-const HomeStack = () => {
+const HomeStack: React.FC = () => {
   return (
     <Stack.Navigator initialRouteName="HomeScreen">
-      <Stack.Screen name="HomeScreen" options={{headerShown: false}} component={Home} />
-      <Stack.Screen name="AddRecipeScreen" options={{title: 'Add Recipe'}} component={AddRecipeScreen} />
-      <Stack.Screen name="RecipeResultScreen" options={{title: 'Recipe Result'}} component={RecipeResultScreen} />
-      <Stack.Screen name="RecipeDetailScreen" options={{title: 'Recipe Detail'}} component={RecipeDetailScreen} />
+      <Stack.Screen name="HomeScreen" component={Home} options={{headerShown: false}} />
+      <Stack.Screen name="AddRecipeScreen" component={AddRecipeScreen} options={{title: 'Add Recipe'}} />
+      <Stack.Screen name="RecipeResultScreen" component={RecipeResultScreen} options={{title: 'Recipe Result'}} />
+      <Stack.Screen name="RecipeDetailScreen" component={RecipeDetailScreen} options={{title: 'Recipe Detail'}} />
     </Stack.Navigator>
   );
 };
 
-const ProfileStack = () => {
+const ProfileStack: React.FC = () => {
   const appSettings = useAppSettings();
   return (
     <Stack.Navigator initialRouteName="UserProfile">
-      <Stack.Screen
-        name="UserProfile"
-        component={Profile}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="UserSettings"
-        options={{title: appSettings.t('settings')}}
-        component={Settings}
-      />
-      <Stack.Screen
-        name="NotFound"
-        component={NotFound}
-        options={{title: appSettings.t('NotFound')}}
-      />
+      <Stack.Screen name="UserProfile" component={Profile} options={{headerShown: false}} />
+      <Stack.Screen name="UserSettings" component={Settings} options={{title: appSettings.t('settings')}} />
+      <Stack.Screen name="NotFound" component={NotFound} options={{title: appSettings.t('NotFound')}} />
     </Stack.Navigator>
   );
 };
@@ -56,27 +48,37 @@ const SignedIn = () => {
     <BottomTab.Navigator
       initialRouteName="Home"
       safeAreaInsets={insets}
-      screenOptions={{tabBarStyle: {paddingBottom: 3}, headerShown: false}}>
+      screenOptions={({route}) => ({
+        tabBarIcon: ({color, size}) => {
+          let iconName;
+          if (route.name === 'Home') {
+            iconName = 'home';
+          } else if (route.name === 'User') {
+            iconName = 'account';
+          }
+          return <Icon name={iconName ?? ''} size={size} color={color} />;
+        },
+        tabBarStyle: {paddingBottom: 3},
+        headerShown: false,
+      })}>
       <BottomTab.Screen
-        name="Home"
-        options={{
-          title: 'Home',
-          tabBarIcon(props) {
-            return <Icon name="home" size={24} color={props.color} />;
-          },
-        }}
-        component={HomeStack}
-      />
-      <BottomTab.Screen
-        name="User"
-        options={{
-          title: appSettings.t('userInfo'),
-          tabBarIcon(props) {
-            return <Icon name="account" size={24} color={props.color} />;
-          },
-        }}
-        component={ProfileStack}
-      />
+  name="Home"
+  component={HomeStack}
+/>
+<BottomTab.Screen
+  name="User"
+  component={ProfileStack}
+  listeners={({ navigation }) => ({
+    tabPress: e => {
+      e.preventDefault(); 
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'User' }], 
+      });
+    },
+  })}
+/>
+
     </BottomTab.Navigator>
   );
 };

@@ -1,6 +1,5 @@
-// RecipeDetailScreen.tsx
-import React from 'react';
-import { ScrollView, StyleSheet, View, Image } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { ScrollView, StyleSheet, Image, Animated, TouchableOpacity } from 'react-native';
 import { Text, useTheme, Card, Title, Paragraph } from 'react-native-paper';
 
 // Mock recipe data for visualization
@@ -23,10 +22,26 @@ const recipe = {
 
 const RecipeDetailScreen = () => {
   const theme = useTheme();
+  const animation = useRef(new Animated.Value(200)).current; // Initial height
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleImageSize = () => {
+    setIsExpanded(!isExpanded);
+    Animated.timing(animation, {
+      toValue: isExpanded ? 200 : 400, // Toggle between the initial and expanded sizes
+      duration: 300, // Duration of the animation
+      useNativeDriver: false, // `height` cannot be animated using native driver
+    }).start();
+  };
 
   return (
     <ScrollView style={styles.container}>
-      <Image source={{ uri: recipe.imageUrl }} style={styles.image} />
+      <TouchableOpacity onPress={toggleImageSize}>
+        <Animated.Image
+          source={{ uri: recipe.imageUrl }}
+          style={[styles.image, { height: animation }]} // Bind animated height here
+        />
+      </TouchableOpacity>
       <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
         <Card.Content>
           <Title style={{ color: theme.colors.primary }}>{recipe.title}</Title>
@@ -47,8 +62,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    width: '100%',
-    height: 200,
+    width: '100%', // Ensure the image takes full width
+    resizeMode: 'cover', // Maintain the aspect ratio of the image
   },
   card: {
     margin: 16,

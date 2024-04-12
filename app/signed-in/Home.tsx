@@ -19,7 +19,6 @@ function Home() {
 
   const handleSearch = () => {
     console.log('Search for:', searchQuery);
-    // Intended for API call
   };
 
   const handleAddRecipe = () => {
@@ -27,8 +26,13 @@ function Home() {
     navigation.navigate('AddRecipeScreen');
   };
 
+const handleRecipePress = (id : string) =>{
+  console.log(`navigate to recipe ${id}`);
+  navigation.navigate('RecipeDetailScreen');
+}
+
   const renderItem = ({ item } : any) => (
-    <Card style={styles.card} onPress={() => console.log('Navigate to Recipe', item.id)}>
+    <Card style={styles.card} onPress={() => handleRecipePress(item.id)}>
       <Card.Content>
         <Text style={{ color: theme.colors.onSecondaryContainer }}>{item.title}</Text>
         <Text style={{ color: theme.colors.onSecondaryContainer }}>{item.cuisine}</Text>
