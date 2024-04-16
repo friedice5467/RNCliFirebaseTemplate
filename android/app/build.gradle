@@ -68,6 +68,15 @@ def enableProguardInReleaseBuilds = false
  * this variant is about 6MiB larger per architecture than default.
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
+def REACT_NATIVE_VERSION = new File(['node', '--print', "JSON.parse(require('fs').readFileSync(require.resolve('react-native/package.json'), 'utf-8')).version"].execute(null, rootDir).text.trim())
+
+allprojects{
+    configurations.all {
+        resolutionStrategy {
+            force 'com.facebook.react:react-native:' + REACT_NATIVE_VERSION
+        }
+    }
+}
 
 android {
     ndkVersion rootProject.ext.ndkVersion
@@ -90,12 +99,10 @@ android {
             keyPassword 'android'
         }
         release {
-            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
-                storeFile file(MYAPP_RELEASE_STORE_FILE)
-                storePassword MYAPP_RELEASE_STORE_PASSWORD
-                keyAlias MYAPP_RELEASE_KEY_ALIAS
-                keyPassword MYAPP_RELEASE_KEY_PASSWORD
-            }
+            storeFile file('your-keystore-name.keystore')
+            storePassword 'Pass123$'
+            keyAlias 'your-key-alias'
+            keyPassword 'Pass123$'
         }
     }
     buildTypes {
@@ -104,8 +111,6 @@ android {
         }
         release {
             signingConfig signingConfigs.release
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
 }
