@@ -1,8 +1,8 @@
-// AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect, ReactNode, useMemo } from 'react';
 import auth from '@react-native-firebase/auth';
 import { AppUser } from '../models/appUser';  
 import firestore from '../../shims/firebase-firestore-web';  
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 type AuthState = {
     isUserAuthenticated: boolean;
@@ -11,6 +11,7 @@ type AuthState = {
     setUser: (user: AppUser | null) => void;
     introNeeded: boolean;
     setIntroNeeded: (needed: boolean) => void;
+    signOut: () => Promise<void>;
 };
 
 const initialState: AuthState = {
@@ -19,7 +20,8 @@ const initialState: AuthState = {
     user: null,
     setUser: () => {},
     introNeeded: false,
-    setIntroNeeded: () => {}
+    setIntroNeeded: () => {},
+    signOut: async () => {} 
 };
 
 const UserContext = createContext<AuthState>(initialState);
@@ -32,6 +34,13 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
     const [user, setUser] = useState<AppUser | null>(null);
     const [introNeeded, setIntroNeeded] = useState(false);
+
+    const signOut = async () => {
+        await GoogleSignin.signOut();
+        await auth().signOut();
+        setIsUserAuthenticated(false);
+    }
+
     useEffect(() => {
         const unsubscribe = auth().onAuthStateChanged(async (user) => {
             if (user) {
@@ -60,7 +69,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         user,
         setUser,
         introNeeded,
-        setIntroNeeded
+        setIntroNeeded,
+        signOut
     }), [user, introNeeded]); 
     
     return (

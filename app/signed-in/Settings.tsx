@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useContext, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
@@ -14,7 +14,7 @@ import {
 } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useAlerts} from 'react-native-paper-alerts';
-
+import { UserContext } from '../contexts/AuthContext';
 import {useAppSettings} from '../components/AppSettings';
 
 function EditProfile(): JSX.Element | null {
@@ -22,7 +22,7 @@ function EditProfile(): JSX.Element | null {
   const theme = useTheme();
   const appSettings = useAppSettings();
   const Alert = useAlerts();
-
+  const { signOut } = useContext(UserContext);
   const [signingOut, setSigningOut] = useState(false);
   const [savingName, setSavingName] = useState(false);
   const [displayName, setDisplayName] = useState(
@@ -48,10 +48,9 @@ function EditProfile(): JSX.Element | null {
     }
   }, [newPassword, confirmPassword, appSettings]);
 
-  async function signOut() {
+  async function signOutHandler() {
     setSigningOut(true);
-    await GoogleSignin.signOut();
-    await auth().signOut();
+    await signOut();
   }
 
   async function handleDisplayName() {
@@ -256,7 +255,7 @@ function EditProfile(): JSX.Element | null {
         <Button
           mode="contained"
           loading={signingOut}
-          onPress={() => (signingOut ? null : signOut())}
+          onPress={() => (signingOut ? null : signOutHandler())}
           style={[styles.button, styles.maxWidth]}>
           {appSettings.t('userSignOut')}
         </Button>

@@ -1,6 +1,8 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth';
+export interface AppUser {
+    uid : string;
+    email : string | null;
+    displayName : string | null;
 
-export interface AppUser extends FirebaseAuthTypes.User {
     /**
      * User's dietary preferences, e.g., vegetarian, vegan, gluten-free, etc.
      */
@@ -27,11 +29,6 @@ export interface AppUser extends FirebaseAuthTypes.User {
     nutritionalPreferences: string[];
 
     /**
-     * Indicates if the user is looking for quick recipes (e.g., under 20 minutes).
-     */
-    prefersQuickRecipes: boolean;
-
-    /**
      * Time in minutes for the users preferred total recipe time.
      */
     preferredTotalTime: number;
@@ -44,5 +41,5 @@ export interface AppUser extends FirebaseAuthTypes.User {
     /**
      * Any other preferences or user-specific information that could influence recipe recommendations.
      */
-    additionalPreferences: Record<string, any>;
+    additionalPreferences: string;
 }

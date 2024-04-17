@@ -10,10 +10,6 @@ import RecipeDetailScreen from './RecipeDetails';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RecipeResultScreen from './RecipeResult';
-import {
-  HomeScreenNavigationProp,
-  ProfileScreenNavigationProp,
-} from '../models/navigation';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();

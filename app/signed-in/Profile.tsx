@@ -13,7 +13,6 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useLinkTo} from '@react-navigation/native';
 
-import {UserContext} from '../contexts/AuthContext';
 import Hero from '../components/Hero';
 import Provider from '../components/AuthProvider';
 import Google from '../auth-providers/Google';
@@ -25,10 +24,11 @@ import {
 } from '../components/AppSettings';
 require('dayjs/locale/en');
 require('dayjs/locale/es');
+import auth from '@react-native-firebase/auth';
 
 function Profile() {
   const theme = useTheme();
-  const user = useContext(UserContext).user;
+  const user = auth().currentUser;
   const appSettings = useAppSettings();
   const linkTo = useLinkTo();
 

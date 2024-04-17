@@ -33,7 +33,7 @@ export default function App() {
   };
 
   const renderContent = () => {
-    console.log(`user is ${user}, introNeeded is ${introNeeded}`);
+
     if (initializing) {
       return (
         <View style={styles.loadingContainer}>
@@ -69,6 +69,7 @@ export default function App() {
                   User: 'user',
                   UserProfile: 'profile',
                   UserSettings: 'profile/edit',
+                  Home: 'home',
                 },
               },
             }}

@@ -1,7 +1,6 @@
-import {useContext, useState} from 'react';
+import {useState} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 import {FirebaseError} from '@firebase/util';
-import auth from '@react-native-firebase/auth';
 import appleAuth, {
   AppleButton,
   AppleRequestOperation,
@@ -9,7 +8,7 @@ import appleAuth, {
 } from '@invertase/react-native-apple-authentication';
 import {useAlerts} from 'react-native-paper-alerts';
 
-import {UserContext} from '../contexts/AuthContext';
+import auth from '@react-native-firebase/auth';
 import {useAppSettings} from '../components/AppSettings';
 import {getProviderButtonTitle} from '../util/helpers';
 
@@ -17,7 +16,7 @@ const PROVIDER_ID = 'apple.com';
 
 function Apple(): JSX.Element | null {
   const [loading, setLoading] = useState(false);
-  const user = useContext(UserContext).user;
+  const user = auth().currentUser;
   const Alert = useAlerts();
   const appSettings = useAppSettings();
 

@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {FirebaseError} from '@firebase/util';
 import {useAlerts} from 'react-native-paper-alerts';
@@ -7,7 +7,6 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 
-import {UserContext} from '../contexts/AuthContext';
 import {useAppSettings} from '../components/AppSettings';
 import ProviderButton from '../components/AuthProviderButton';
 import {getProviderButtonTitle} from '../util/helpers';
@@ -16,7 +15,7 @@ const PROVIDER_ID = 'google.com';
 
 function Google(): JSX.Element | null {
   const [loading, setLoading] = useState(false);
-  const user = useContext(UserContext).user;
+  const user = auth().currentUser;
   const Alert = useAlerts();
   const appSettings = useAppSettings();
 
