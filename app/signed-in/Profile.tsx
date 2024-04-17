@@ -13,7 +13,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useLinkTo} from '@react-navigation/native';
 
-import {UserContext} from '../App';
+import {UserContext} from '../contexts/AuthContext';
 import Hero from '../components/Hero';
 import Provider from '../components/AuthProvider';
 import Google from '../auth-providers/Google';
@@ -25,11 +25,10 @@ import {
 } from '../components/AppSettings';
 require('dayjs/locale/en');
 require('dayjs/locale/es');
-import Orientation from 'react-native-orientation-locker';
 
 function Profile() {
   const theme = useTheme();
-  const user = useContext(UserContext);
+  const user = useContext(UserContext).user;
   const appSettings = useAppSettings();
   const linkTo = useLinkTo();
 

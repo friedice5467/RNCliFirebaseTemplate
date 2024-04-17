@@ -5,5 +5,12 @@
 import {AppRegistry} from 'react-native';
 import App from './app/App';
 import {name as appName} from './app.json';
+import {AuthProvider} from './app/contexts/AuthContext';
 
-AppRegistry.registerComponent(appName, () => App);
+const RootComponent = () => (
+    <AuthProvider>  
+        <App />
+    </AuthProvider>
+);
+
+AppRegistry.registerComponent(appName, () => RootComponent);

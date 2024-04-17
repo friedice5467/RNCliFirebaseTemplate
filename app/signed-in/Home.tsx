@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { StyleSheet, View, FlatList, TextInput } from 'react-native';
 import { useTheme, Card, FAB, Text } from 'react-native-paper';
 import {  useNavigation } from '@react-navigation/native';
-import { UserContext } from '../App';
+import { UserContext } from '../contexts/AuthContext';
 import { HomeScreenNavigationProp } from '../models/navigation';  
 
 function Home() {
