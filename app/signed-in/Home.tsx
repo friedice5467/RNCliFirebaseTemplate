@@ -1,21 +1,39 @@
-import React, { useContext, useState } from 'react';
-import { StyleSheet, View, FlatList, TextInput } from 'react-native';
-import { useTheme, Card, FAB, Text } from 'react-native-paper';
-import {  useNavigation } from '@react-navigation/native';
-import { UserContext } from '../contexts/AuthContext';
-import { HomeScreenNavigationProp } from '../models/navigation';  
+import React, {useContext, useState, useEffect} from 'react';
+import {StyleSheet, View, FlatList, TextInput} from 'react-native';
+import {useTheme, Card, FAB, Text, ActivityIndicator} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
+import {UserContext} from '../contexts/AuthContext';
+import {HomeScreenNavigationProp} from '../models/navigation';
+import firestore from '../../shims/firebase-firestore-web';
+import {Recipe} from '../models/recipe';
 
 function Home() {
   const theme = useTheme();
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const user = useContext(UserContext);
   const [searchQuery, setSearchQuery] = useState('');
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const mockRecipes = [
-    { id: '1', title: 'Spaghetti Carbonara', cuisine: 'Italian' },
-    { id: '2', title: 'Chicken Tikka Masala', cuisine: 'Indian' },
-    // Add more mock data
-  ];
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      try {
+        setLoading(true);
+        const snapshot = await firestore().collection('recipes').get();
+        const recipesArray = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...(doc.data() as Recipe),
+        }));
+        setRecipes(recipesArray);
+        setLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch recipes:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchRecipes();
+  }, []);
 
   const handleSearch = () => {
     console.log('Search for:', searchQuery);
@@ -26,16 +44,20 @@ function Home() {
     navigation.navigate('AddRecipeScreen');
   };
 
-const handleRecipePress = (id : string) =>{
-  console.log(`navigate to recipe ${id}`);
-  navigation.navigate('RecipeDetailScreen');
-}
+  const handleRecipePress = (uri: string) => {
+    console.log(`navigate to recipe ${uri}`);
+    navigation.navigate('RecipeDetailScreen', {uri: uri});
+  };
 
-  const renderItem = ({ item } : any) => (
-    <Card style={styles.card} onPress={() => handleRecipePress(item.id)}>
+  const renderItem = ({item}: {item: Recipe}) => (
+    <Card style={styles.card} onPress={() => handleRecipePress(item.uri)}>
       <Card.Content>
-        <Text style={{ color: theme.colors.onSecondaryContainer }}>{item.title}</Text>
-        <Text style={{ color: theme.colors.onSecondaryContainer }}>{item.cuisine}</Text>
+        <Text style={{color: theme.colors.onSecondaryContainer}}>
+          {item.label}
+        </Text>
+        <Text style={{color: theme.colors.onSecondaryContainer}}>
+          {item.cuisineType.join(', ')}
+        </Text>
       </Card.Content>
     </Card>
   );
@@ -44,24 +66,39 @@ const handleRecipePress = (id : string) =>{
     return null;
   }
 
+  const renderContent = () => {
+    if (loading) {
+      return (
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <ActivityIndicator animating={true} color={theme.colors.primary} />
+        </View>
+      );
+    } else {
+      return (
+        <FlatList
+          data={recipes}
+          renderItem={renderItem}
+          keyExtractor={item => item.uri}
+          contentContainerStyle={styles.list}
+        />
+      );
+    }
+  };
+
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <View
+      style={[styles.container, {backgroundColor: theme.colors.background}]}>
       <TextInput
-        style={[styles.searchBar, { backgroundColor: theme.colors.surface }]}
+        style={[styles.searchBar, {backgroundColor: theme.colors.surface}]}
         placeholder="Search recipes..."
         placeholderTextColor={theme.colors.onSecondaryContainer}
         value={searchQuery}
         onChangeText={setSearchQuery}
         onSubmitEditing={handleSearch}
       />
-      <FlatList
-        data={mockRecipes}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.list}
-      />
+      {renderContent()}
       <FAB
-        style={[styles.fab, { backgroundColor: theme.colors.primary }]}
+        style={[styles.fab, {backgroundColor: theme.colors.primary}]}
         icon="plus"
         onPress={handleAddRecipe}
         label="Add Recipe"

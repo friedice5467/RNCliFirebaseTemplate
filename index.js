@@ -8,9 +8,9 @@ import {name as appName} from './app.json';
 import {AuthProvider} from './app/contexts/AuthContext';
 
 const RootComponent = () => (
-    <AuthProvider>  
-        <App />
-    </AuthProvider>
+  <AuthProvider>
+      <App />
+  </AuthProvider>
 );
 
 AppRegistry.registerComponent(appName, () => RootComponent);

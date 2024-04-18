@@ -1,6 +1,10 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, View, ActivityIndicator} from 'react-native';
-import {Headline, Provider as PaperProvider} from 'react-native-paper';
+import {
+  useTheme,
+  Headline,
+  Provider as PaperProvider,
+} from 'react-native-paper';
 import {
   SafeAreaProvider,
   initialWindowMetrics,
@@ -16,10 +20,18 @@ import SignedOutStack from './signed-out/Stack';
 import appJson from '../app.json';
 import {useAppSettings} from './components/AppSettings';
 import {AppUser} from './models/appUser';
+import {RecipeProvider} from './contexts/RecipeContext';
 
 export default function App() {
-  const {isUserAuthenticated, initializing, setUser, introNeeded, setIntroNeeded} = useAuthState();
+  const {
+    isUserAuthenticated,
+    initializing,
+    setUser,
+    introNeeded,
+    setIntroNeeded,
+  } = useAuthState();
   const appSettings = useAppSettings();
+  const theme = useTheme();
 
   useEffect(() => {
     Orientation.lockToPortrait();
@@ -35,7 +47,7 @@ export default function App() {
       return (
         //TODO - CUSTOM LOADING SCREEN
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color={theme.colors.primary} />
           <Headline style={styles.headline}>Loading...</Headline>
         </View>
       );
@@ -53,31 +65,33 @@ export default function App() {
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <PaperProvider theme={appSettings.currentTheme}>
         <AlertsProvider>
-          <NavigationContainer
-            linking={{
-              prefixes: ['localhost'],
-              config: {
-                screens: {
-                  SignIn: '',
-                  CreateAccount: 'account/create',
-                  ForgotPassword: 'account/password/forgot',
-                  PhoneSignIn: 'account/phone/login',
-                  NotFound: '*',
-                  Details: 'details',
-                  User: 'user',
-                  UserProfile: 'profile',
-                  UserSettings: 'profile/edit',
-                  Home: 'home',
+          <RecipeProvider>
+            <NavigationContainer
+              linking={{
+                prefixes: ['localhost'],
+                config: {
+                  screens: {
+                    SignIn: '',
+                    CreateAccount: 'account/create',
+                    ForgotPassword: 'account/password/forgot',
+                    PhoneSignIn: 'account/phone/login',
+                    NotFound: '*',
+                    Details: 'details',
+                    User: 'user',
+                    UserProfile: 'profile',
+                    UserSettings: 'profile/edit',
+                    Home: 'home',
+                  },
                 },
-              },
-            }}
-            documentTitle={{
-              formatter: (options, route) =>
-                `${appJson.displayName} - ${options?.title ?? route?.name}`,
-            }}
-            theme={appSettings.currentTheme}>
-            {renderContent()}
-          </NavigationContainer>
+              }}
+              documentTitle={{
+                formatter: (options, route) =>
+                  `${appJson.displayName} - ${options?.title ?? route?.name}`,
+              }}
+              theme={appSettings.currentTheme}>
+              {renderContent()}
+            </NavigationContainer>
+          </RecipeProvider>
         </AlertsProvider>
       </PaperProvider>
     </SafeAreaProvider>

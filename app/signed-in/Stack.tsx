@@ -10,29 +10,31 @@ import RecipeDetailScreen from './RecipeDetails';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RecipeResultScreen from './RecipeResult';
+import { HomeStackParamList, ProfileStackParamList } from '../models/navigation';
 
-const Stack = createStackNavigator();
+const TopStack = createStackNavigator<HomeStackParamList>();
+const BottomStack = createStackNavigator<ProfileStackParamList>();
 const BottomTab = createBottomTabNavigator();
 
 const HomeStack: React.FC = () => {
   return (
-    <Stack.Navigator initialRouteName="HomeScreen">
-      <Stack.Screen name="HomeScreen" component={Home} options={{headerShown: false}} />
-      <Stack.Screen name="AddRecipeScreen" component={AddRecipeScreen} options={{title: 'Add Recipe'}} />
-      <Stack.Screen name="RecipeResultScreen" component={RecipeResultScreen} options={{title: 'Recipe Result'}} />
-      <Stack.Screen name="RecipeDetailScreen" component={RecipeDetailScreen} options={{title: 'Recipe Detail'}} />
-    </Stack.Navigator>
+    <TopStack.Navigator initialRouteName="HomeScreen">
+      <TopStack.Screen name="HomeScreen" component={Home} options={{headerShown: false}} />
+      <TopStack.Screen name="AddRecipeScreen" component={AddRecipeScreen} options={{title: 'Add Recipe'}} />
+      <TopStack.Screen name="RecipeResultScreen" component={RecipeResultScreen} options={{title: 'Recipe Result'}} />
+      <TopStack.Screen name="RecipeDetailScreen" component={RecipeDetailScreen} options={{title: 'Recipe Detail'}} />
+    </TopStack.Navigator>
   );
 };
 
 const ProfileStack: React.FC = () => {
   const appSettings = useAppSettings();
   return (
-    <Stack.Navigator initialRouteName="UserProfile">
-      <Stack.Screen name="UserProfile" component={Profile} options={{headerShown: false}} />
-      <Stack.Screen name="UserSettings" component={Settings} options={{title: appSettings.t('settings')}} />
-      <Stack.Screen name="NotFound" component={NotFound} options={{title: appSettings.t('NotFound')}} />
-    </Stack.Navigator>
+    <BottomStack.Navigator initialRouteName="UserProfile">
+      <BottomStack.Screen name="UserProfile" component={Profile} options={{headerShown: false}} />
+      <BottomStack.Screen name="UserSettings" component={Settings} options={{title: appSettings.t('settings')}} />
+      <BottomStack.Screen name="NotFound" component={NotFound} options={{title: appSettings.t('NotFound')}} />
+    </BottomStack.Navigator>
   );
 };
 
