@@ -33,6 +33,7 @@ export default function App() {
   const renderContent = () => {
     if (initializing) {
       return (
+        //TODO - CUSTOM LOADING SCREEN
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#0000ff" />
           <Headline style={styles.headline}>Loading...</Headline>
