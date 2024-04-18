@@ -5,6 +5,8 @@ import firestore from '../../shims/firebase-firestore-web';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 type AuthState = {
+    initializing: boolean;
+    setInitializing: (initializing: boolean) => void;
     isUserAuthenticated: boolean;
     setIsUserAuthenticated: (isAuthenticated: boolean) => void;
     user: AppUser | null;
@@ -15,6 +17,8 @@ type AuthState = {
 };
 
 const initialState: AuthState = {
+    initializing: false,
+    setInitializing: () => {},
     isUserAuthenticated: false,
     setIsUserAuthenticated: () => {},
     user: null,
@@ -34,6 +38,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
     const [user, setUser] = useState<AppUser | null>(null);
     const [introNeeded, setIntroNeeded] = useState(false);
+    const [initializing, setInitializing] = useState(false);
 
     const signOut = async () => {
         await GoogleSignin.signOut();
@@ -42,7 +47,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     }
 
     useEffect(() => {
-        const unsubscribe = auth().onAuthStateChanged(async (user) => {
+        const unsubscribe = auth().onAuthStateChanged(async (user) => {      
+            setInitializing(true);
             if (user) {
                 setIsUserAuthenticated(true);
                 const userProfileRef = firestore().collection('users').doc(user.uid);
@@ -58,12 +64,15 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
                 setIntroNeeded(false); 
                 setIsUserAuthenticated(false);
             }
+            setInitializing(false);
         });
         return () => unsubscribe(); 
     }, []);
     
 
     const contextValue = useMemo(() => ({
+        initializing,
+        setInitializing,
         isUserAuthenticated,
         setIsUserAuthenticated,
         user,
@@ -71,7 +80,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         introNeeded,
         setIntroNeeded,
         signOut
-    }), [user, introNeeded]); 
+    }), [initializing, user, introNeeded]); 
     
     return (
         <UserContext.Provider value={contextValue}>

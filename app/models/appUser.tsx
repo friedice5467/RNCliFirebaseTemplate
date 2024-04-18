@@ -4,14 +4,17 @@ export interface AppUser {
     displayName : string | null;
 
     /**
+     * User's preferred meal types, e.g., breakfast, lunch, dinner, snack, etc.
+     */
+    mealTypes: string[];
+    /**
+     * User's preferred dish type or course, e.g., appetizer, main course, dessert, etc.
+     */
+    dishTypes: string[];
+    /**
      * User's dietary preferences, e.g., vegetarian, vegan, gluten-free, etc.
      */
     dietaryPreferences: string[];
-
-    /**
-     * Food allergies or ingredients the user wants to avoid.
-     */
-    foodAllergies: string[];
 
     /**
      * Favorite cuisines or types of food, which can help in tailoring recipe suggestions.

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, Fragment} from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View, ActivityIndicator} from 'react-native';
 import {Headline, Provider as PaperProvider} from 'react-native-paper';
 import {
@@ -18,13 +18,11 @@ import {useAppSettings} from './components/AppSettings';
 import {AppUser} from './models/appUser';
 
 export default function App() {
-  const {isUserAuthenticated, user, setUser, introNeeded, setIntroNeeded} = useAuthState();
+  const {isUserAuthenticated, initializing, setUser, introNeeded, setIntroNeeded} = useAuthState();
   const appSettings = useAppSettings();
-  const [initializing, setInitializing] = useState(true);
 
   useEffect(() => {
     Orientation.lockToPortrait();
-    setInitializing(false);
   }, []);
 
   const handleProfileUpdate = (updatedUser: AppUser) => {
@@ -33,7 +31,6 @@ export default function App() {
   };
 
   const renderContent = () => {
-
     if (initializing) {
       return (
         <View style={styles.loadingContainer}>
