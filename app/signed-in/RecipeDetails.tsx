@@ -20,7 +20,6 @@ const RecipeDetailScreen: React.FC<RecipeDetailScreenProps> = ({route}) => {
   const {uri} = route.params;
   const {recipes} = useRecipes();
   const recipe = recipes.find(r => r.uri === uri);
-  console.log(`the image is ${recipe?.image}`)
 
   const theme = useTheme();
   const animation = useRef(new Animated.Value(200)).current;
