@@ -17,7 +17,7 @@ Before you begin, ensure you have the following installed:
 To create a new React Native project using this template, run the following command:
 
 ```bash
-npx react-native init MyNewProject --template https://github.com/friedice5467/RNCliFirebase.git
+npx react-native init MyNewProject --template https://github.com/friedice5467/RNCliFirebaseTemplate.git
 ```
 
 Replace `MyNewProject` with your desired project name.
