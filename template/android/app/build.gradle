@@ -83,9 +83,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "MyNewProject"
+    namespace "com.aireciperecommender"
     defaultConfig {
-        applicationId "MyNewProject"
+        applicationId "com.aireciperecommender"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
