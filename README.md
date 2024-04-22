@@ -54,18 +54,6 @@ npx react-native run-android
 npx react-native run-ios
 ```
 
-## Additional Configuration
-
-Refer to the specific documentation of libraries included in this template for additional configuration steps and usage instructions.
-
-## Support
-
-For support, email [support@example.com](mailto:support@example.com) or visit our [support website](#).
-
-## Contributing
-
-Contributions to this project are welcome. Please ensure to update tests as appropriate.
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
