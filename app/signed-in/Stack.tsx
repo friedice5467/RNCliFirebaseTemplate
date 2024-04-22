@@ -5,11 +5,8 @@ import {NotFound} from '../components/NotFound';
 import Profile from './Profile';
 import Settings from './Settings';
 import Home from './Home';
-import AddRecipeScreen from './AddRecipe';
-import RecipeDetailScreen from './RecipeDetails';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import RecipeResultScreen from './RecipeResult';
 import { HomeStackParamList, ProfileStackParamList } from '../models/navigation';
 
 const TopStack = createStackNavigator<HomeStackParamList>();
@@ -20,9 +17,6 @@ const HomeStack: React.FC = () => {
   return (
     <TopStack.Navigator initialRouteName="HomeScreen">
       <TopStack.Screen name="HomeScreen" component={Home} options={{headerShown: false}} />
-      <TopStack.Screen name="AddRecipeScreen" component={AddRecipeScreen} options={{title: 'Add Recipe'}} />
-      <TopStack.Screen name="RecipeResultScreen" component={RecipeResultScreen} options={{title: 'Recipe Result'}} />
-      <TopStack.Screen name="RecipeDetailScreen" component={RecipeDetailScreen} options={{title: 'Recipe Detail'}} />
     </TopStack.Navigator>
   );
 };

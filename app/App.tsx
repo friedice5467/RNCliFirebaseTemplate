@@ -14,13 +14,11 @@ import {AlertsProvider} from 'react-native-paper-alerts';
 import Orientation from 'react-native-orientation-locker';
 
 import {useAuthState} from './contexts/AuthContext';
-import {UserProfileSetup} from './components/UserProfileSetup';
 import SignedInStack from './signed-in/Stack';
 import SignedOutStack from './signed-out/Stack';
 import appJson from '../app.json';
 import {useAppSettings} from './components/AppSettings';
 import {AppUser} from './models/appUser';
-import {RecipeProvider} from './contexts/RecipeContext';
 
 export default function App() {
   const {
@@ -55,9 +53,8 @@ export default function App() {
     if (!isUserAuthenticated) {
       return <SignedOutStack />;
     }
-    if (introNeeded) {
-      return <UserProfileSetup onProfileUpdate={handleProfileUpdate} />;
-    }
+    // if (introNeeded) {
+    // }
     return <SignedInStack />;
   };
 
@@ -65,7 +62,6 @@ export default function App() {
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <PaperProvider theme={appSettings.currentTheme}>
         <AlertsProvider>
-          <RecipeProvider>
             <NavigationContainer
               linking={{
                 prefixes: ['localhost'],
@@ -91,7 +87,6 @@ export default function App() {
               theme={appSettings.currentTheme}>
               {renderContent()}
             </NavigationContainer>
-          </RecipeProvider>
         </AlertsProvider>
       </PaperProvider>
     </SafeAreaProvider>
