@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import firestore from '../../shims/firebase-firestore-web';
 import { Recipe } from '../models/recipe';
 import { useAlerts } from 'react-native-paper-alerts';
+import { useAuthState } from './AuthContext';
 
 const RecipeContext = createContext({
   recipes: [] as Recipe[],
@@ -15,10 +16,12 @@ export const RecipeProvider: React.FC<{ children: React.ReactNode }> = React.mem
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [loading, setLoading] = useState(true);
     const alerts = useAlerts();
+    const { user } = useAuthState();
   
     const fetchRecipes = async () => {
       setLoading(true);
       try {
+        const favoriteRecipes = user?.favoriteRecipes || [];
         const snapshot = await firestore().collection('recipes').get();
         const recipesArray = snapshot.docs.map(doc => ({
           id: doc.id,

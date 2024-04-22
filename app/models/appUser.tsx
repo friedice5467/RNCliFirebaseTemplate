@@ -45,4 +45,9 @@ export interface AppUser {
      * Any other preferences or user-specific information that could influence recipe recommendations.
      */
     additionalPreferences: string;
+
+    /**
+     * user's favorite recipes as an array of recipe uris.
+     */
+    favoriteRecipes: string[] | undefined;
 }

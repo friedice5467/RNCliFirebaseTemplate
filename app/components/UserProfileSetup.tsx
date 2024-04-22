@@ -69,6 +69,7 @@ export const UserProfileSetup = ({
           preferredTotalTime,
           cookingSkillLevel,
           additionalPreferences,
+          favoriteRecipes: [],
         };
         await userProfileRef.set(updatedProfile, {merge: true});
         onProfileUpdate(updatedProfile);
