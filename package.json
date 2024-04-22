@@ -1,0 +1,30 @@
+{
+    "name": "rnc-firebase-template",
+    "version": "1.0.0",
+    "description": "A React Native CLI template pre-configured with Firebase, ideal for quick setup and scalable mobile application development.",
+    "repository": {
+      "type": "git",
+      "url": "git@github.com:friedice5467/RNCliFirebaseTemplate.git"
+    },
+    "publishConfig": {
+      "registry": "https://npm.pkg.github.com"
+    },
+    "author": "friedice5467",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/friedice5467/RNCliFirebaseTemplate/issues"
+    },
+    "homepage": "https://github.com/friedice5467/RNCliFirebaseTemplate#readme",
+    "keywords": [
+      "react-native",
+      "firebase",
+      "template",
+      "mobile-app",
+      "android",
+      "ios",
+      "web",
+      "authentication",
+      "boilerplate"
+    ]
+  }
+  
