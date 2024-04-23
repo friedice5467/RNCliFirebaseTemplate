@@ -1,4 +1,4 @@
-package com.aireciperecommender
+package com.TemplateName
 
 import android.app.Application
 import com.facebook.react.PackageList
