@@ -1,6 +1,6 @@
 # React Native CLI Firebase Template
 
-This is a custom React Native template based off of https://github.com/invertase/react-native-firebase-authentication-example with some modifications.
+This is a react native template for quickly spinning up a react native + firebase project.
 
 ## Prerequisites
 
