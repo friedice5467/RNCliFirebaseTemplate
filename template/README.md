@@ -1,6 +1,6 @@
 # React Native CLI Firebase Template
 
-This is a custom React Native template based off of https://github.com/invertase/react-native-firebase-authentication-example with some modifications.
+This is a react native template for quickly spinning up a react native typescript + firebase project.
 
 ## Prerequisites
 
@@ -17,7 +17,7 @@ Before you begin, ensure you have the following installed:
 To create a new React Native project using this template, run the following command:
 
 ```bash
-npx react-native init MyNewProject --template https://github.com/friedice5467/RNCliFirebase.git
+npx react-native init MyNewProject --template https://github.com/friedice5467/RNCliFirebaseTemplate.git
 ```
 
 Replace `MyNewProject` with your desired project name.
@@ -54,18 +54,6 @@ npx react-native run-android
 npx react-native run-ios
 ```
 
-## Additional Configuration
-
-Refer to the specific documentation of libraries included in this template for additional configuration steps and usage instructions.
-
-## Support
-
-For support, email [support@example.com](mailto:support@example.com) or visit our [support website](#).
-
-## Contributing
-
-Contributions to this project are welcome. Please ensure to update tests as appropriate.
-
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License 
