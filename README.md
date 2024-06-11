@@ -1,6 +1,6 @@
 # React Native CLI Firebase Template
 
-This is a react native template for quickly spinning up a react native + firebase project.
+This is a react native template for quickly spinning up a react native typescript + firebase project.
 
 ## Prerequisites
 
